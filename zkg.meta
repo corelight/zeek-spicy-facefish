@@ -1,7 +1,6 @@
 [package]
-summary = TODO: A summary of FACEFISH in one line
-description = TODO: A more detailed description of FACEFISH.
-	It can span multiple lines, with this indention.
+summary = A Facefish rootkit detector, based on Spicy.
+description = A Facefish rootkit detector, based on Spicy.
 script_dir = analyzer
 plugin_dir = build/spicy-modules
 build_command = unset -v CXX CXXFLAGS LD LDFLAGS && mkdir -p build && cd build && cmake .. && cmake --build .

@@ -1,15 +1,26 @@
-# This file sets up protocol confirmation/rejection for analyzers.
-
 module Zeek_zeek_spicy_facefish;
 
 import zeek_spicy_facefish;
 import zeek;
 
-# TODO: For DPD, protocol analyzers should confirm or reject a protocol.
-# on zeek_spicy_facefish::FACEFISH::%done {
-#     zeek::confirm_protocol();
-# }
-#
-# on zeek_spicy_facefish::FACEFISH::%error {
-#     zeek::reject_protocol("error while parsing FACEFISH record");
-# }
+on zeek_spicy_facefish::FacefishRecord::%done {
+	zeek::confirm_protocol();
+}
+
+on zeek_spicy_facefish::FacefishRecord::%error {
+	zeek::reject_protocol("error while parsing Facefish_Rootkit record");
+}
+
+public function create_facefishmsg(msg: zeek_spicy_facefish::FacefishRecord):
+    tuple<
+        payload_len: uint16,
+        command: uint16,
+        crc32_payload: uint32,
+        payload: optional<bytes>> {
+    return (
+        msg.payload_len,
+        msg.command,
+        msg.crc32_payload,
+        msg.payload
+    );
+}

@@ -1,7 +1,11 @@
-# TODO: Use this file to optionally declare signatures which can be used to activate your analyzers.
-#
-# signature dpd_FACEFISH {
-#     ip-proto == tcp
-#     payload /^\x11\x22\x33\x44/
-#     enable "spicy_FACEFISH"
-# }
+signature dpd_facefish_rootkit_client {
+  ip-proto == tcp
+  payload /^\x00\x00\x00\x02\x00\x00\x00\x00/
+}
+
+signature dpd_facefish_rootkit_server {
+  ip-proto == tcp
+  payload /^..\x01\x02/
+  requires-reverse-signature dpd_facefish_rootkit_client
+  enable "spicy_FACEFISH"
+}

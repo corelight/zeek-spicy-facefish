@@ -1,7 +1,16 @@
-# TODO: Define your analyzers here.
-
 module zeek_spicy_facefish;
 
-public type FACEFISH = unit {
-    payload: bytes &eod;
+import spicy;
+
+%byte-order = spicy::ByteOrder::Little;
+
+public type FacefishRecords = unit {
+    records: FacefishRecord()[];
+};
+
+public type FacefishRecord = unit() {
+    payload_len:		uint16;
+    command:			uint16 &requires=($$ <= 0x312 && $$ >= 0x200);
+    crc32_payload:		uint32;
+    payload:			bytes &size=self.payload_len;
 };
